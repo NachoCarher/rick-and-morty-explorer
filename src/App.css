@@ -1,0 +1,51 @@
+body {
+  background: rgb(232, 235, 238);
+}
+
+main {
+  margin: 0;
+  padding: 1rem;
+  font-family: system-ui, sans-serif;
+}
+
+h1 {
+  justify-content: center;
+  display: flex;
+}
+
+p {
+  text-align: center;
+  font-weight: bold;
+}
+
+p span {
+  font-size: 1.5rem;
+}
+
+.character-container {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  list-style: none;
+  align-items: center;
+}
+
+.character {
+  border: 1px solid #ccc;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 10px;
+  padding: 1rem;
+  margin: 1rem auto;
+  max-width: 300px;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  background: white;
+}
+
+.character img {
+  border-radius: 50%;
+  width: 150px;
+  height: 150px;
+}

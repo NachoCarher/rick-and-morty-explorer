@@ -1,4 +1,5 @@
 import { useEffect, useReducer } from "react";
+import "./App.css";
 
 const initialState = {
   status: "loading", // loading, success, error
@@ -39,19 +40,23 @@ function App() {
 
   return (
     <main>
+      <h1>Rick and Morty explorer</h1>
       {status === "loading" && <p>Loading...</p>}
       {status === "error" && (
         <p>
           <span>💥</span> {error}
         </p>
       )}
-      {status === "success" &&
-        data?.map((character) => (
-          <div className="character" key={character.id}>
-            <h2>{character.name}</h2>
-            <img src={character.image} alt={character.name} />
-          </div>
-        ))}
+      {status === "success" && (
+        <ul className="character-container">
+          {data?.map((character) => (
+            <li className="character" key={character.id}>
+              <h2>{character.name}</h2>
+              <img src={character.image} alt={character.name} />
+            </li>
+          ))}
+        </ul>
+      )}
     </main>
   );
 }
