@@ -57,6 +57,24 @@ function App() {
           ))}
         </ul>
       )}
+
+      <div className="pagination">
+        <button
+          onClick={() =>
+            dispatch({ type: "setPage", payload: currentPage - 1 })
+          }
+        >
+          Prev
+        </button>
+        <span>{currentPage}</span>
+        <button
+          onClick={() =>
+            dispatch({ type: "setPage", payload: currentPage + 1 })
+          }
+        >
+          Next
+        </button>
+      </div>
     </main>
   );
 }
