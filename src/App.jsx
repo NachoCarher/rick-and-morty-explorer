@@ -17,9 +17,16 @@ function reducer(state, action) {
     case "setPage":
       return { ...state, currentPage: action.payload };
     case "dataReceived":
-      return { ...state, data: action.payload.results, status: "success" };
+      return {
+        ...state,
+        data: action.payload.results,
+        status: "success",
+      };
     case "dataFailed":
       return { ...state, status: "error", error: action.payload };
+    case "searchCharacter":
+      console.log("To search:" + action.payload);
+      return "";
     default:
       throw new Error("Unknown");
   }
@@ -38,9 +45,22 @@ function App() {
       .catch((err) => dispatch({ type: "dataFailed", payload: err }));
   }, [currentPage]);
 
+  function handleSubmit(event) {
+    event.preventDefault();
+    dispatch({
+      type: "searchCharacter",
+      payload: event.target[0].value,
+    });
+  }
+
   return (
     <main>
       <h1>Rick and Morty explorer</h1>
+      <form onSubmit={() => handleSubmit(event)}>
+        <input type="text" placeholder="Birdperson" />
+        <input type="submit" value="Search character" />
+      </form>
+
       {status === "loading" && <p>Loading...</p>}
       {status === "error" && (
         <p>
