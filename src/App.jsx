@@ -1,5 +1,6 @@
 import { useEffect, useReducer, useRef } from "react";
 import "./App.css";
+import NavButton from "./components/NavButton";
 
 const initialState = {
   status: "loading", // loading, success, error
@@ -56,26 +57,6 @@ function App() {
       .catch((err) => dispatch({ type: "dataFailed", payload: err }));
   }
 
-  function handleNext() {
-    if (nextPage) {
-      fetch(nextPage)
-        .then((response) => response.json())
-        .then((data) => dispatch({ type: "dataReceived", payload: data }))
-        .catch((err) => dispatch({ type: "dataFailed", payload: err }));
-    }
-    page.current++;
-  }
-
-  function handlePrev() {
-    if (prevPage) {
-      fetch(prevPage)
-        .then((response) => response.json())
-        .then((data) => dispatch({ type: "dataReceived", payload: data }))
-        .catch((err) => dispatch({ type: "dataFailed", payload: err }));
-    }
-    page.current--;
-  }
-
   return (
     <main>
       <h1>Rick and Morty explorer</h1>
@@ -102,13 +83,23 @@ function App() {
       )}
 
       <div className="pagination">
-        <button disabled={!prevPage} onClick={() => handlePrev()}>
+        <NavButton
+          PrevNextPage={prevPage}
+          dispatch={dispatch}
+          currentPage={page}
+          type="prev"
+        >
           Prev
-        </button>
+        </NavButton>
         <span>{page.current}</span>
-        <button disabled={!nextPage} onClick={() => handleNext()}>
+        <NavButton
+          PrevNextPage={nextPage}
+          dispatch={dispatch}
+          currentPage={page}
+          type="next"
+        >
           Next
-        </button>
+        </NavButton>
       </div>
     </main>
   );
