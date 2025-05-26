@@ -24,9 +24,6 @@ function reducer(state, action) {
       };
     case "dataFailed":
       return { ...state, status: "error", error: action.payload };
-    case "searchCharacter":
-      console.log("To search:" + action.payload);
-      return "";
     default:
       throw new Error("Unknown");
   }
@@ -47,10 +44,13 @@ function App() {
 
   function handleSubmit(event) {
     event.preventDefault();
-    dispatch({
-      type: "searchCharacter",
-      payload: event.target[0].value,
-    });
+    fetch(
+      `https://rickandmortyapi.com/api/character/?name=${event.target[0].value}`
+    )
+      .then((response) => response.json())
+      .then((response) =>
+        dispatch({ type: "dataReceived", payload: response })
+      );
   }
 
   return (
