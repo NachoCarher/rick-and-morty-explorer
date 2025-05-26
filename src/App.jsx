@@ -1,4 +1,4 @@
-import { useEffect, useReducer } from "react";
+import { useEffect, useReducer, useRef } from "react";
 import "./App.css";
 
 const initialState = {
@@ -9,18 +9,19 @@ const initialState = {
     name: "",
     condition: "", // dead, alive, unknown
   },
-  currentPage: 1,
+  nextPage: "",
+  prevPage: "",
 };
 
 function reducer(state, action) {
   switch (action.type) {
-    case "setPage":
-      return { ...state, currentPage: action.payload };
     case "dataReceived":
       return {
         ...state,
         data: action.payload.results,
         status: "success",
+        nextPage: action.payload.info.next,
+        prevPage: action.payload.info.prev,
       };
     case "dataFailed":
       return { ...state, status: "error", error: action.payload };
@@ -30,27 +31,49 @@ function reducer(state, action) {
 }
 
 function App() {
-  const [{ status, data, currentPage, error }, dispatch] = useReducer(
+  const [{ status, data, error, nextPage, prevPage }, dispatch] = useReducer(
     reducer,
     initialState
   );
+  const page = useRef(1);
 
   useEffect(() => {
-    fetch(`https://rickandmortyapi.com/api/character/?page=${currentPage}`)
+    fetch(`https://rickandmortyapi.com/api/character/`)
       .then((response) => response.json())
-      .then((response) => dispatch({ type: "dataReceived", payload: response }))
+      .then((data) => dispatch({ type: "dataReceived", payload: data }))
       .catch((err) => dispatch({ type: "dataFailed", payload: err }));
-  }, [currentPage]);
+  }, []);
 
   function handleSubmit(event) {
     event.preventDefault();
+    page.current = 1;
+
     fetch(
       `https://rickandmortyapi.com/api/character/?name=${event.target[0].value}`
     )
       .then((response) => response.json())
-      .then((response) =>
-        dispatch({ type: "dataReceived", payload: response })
-      );
+      .then((data) => dispatch({ type: "dataReceived", payload: data }))
+      .catch((err) => dispatch({ type: "dataFailed", payload: err }));
+  }
+
+  function handleNext() {
+    if (nextPage) {
+      fetch(nextPage)
+        .then((response) => response.json())
+        .then((data) => dispatch({ type: "dataReceived", payload: data }))
+        .catch((err) => dispatch({ type: "dataFailed", payload: err }));
+    }
+    page.current++;
+  }
+
+  function handlePrev() {
+    if (prevPage) {
+      fetch(prevPage)
+        .then((response) => response.json())
+        .then((data) => dispatch({ type: "dataReceived", payload: data }))
+        .catch((err) => dispatch({ type: "dataFailed", payload: err }));
+    }
+    page.current--;
   }
 
   return (
@@ -79,19 +102,11 @@ function App() {
       )}
 
       <div className="pagination">
-        <button
-          onClick={() =>
-            dispatch({ type: "setPage", payload: currentPage - 1 })
-          }
-        >
+        <button disabled={!prevPage} onClick={() => handlePrev()}>
           Prev
         </button>
-        <span>{currentPage}</span>
-        <button
-          onClick={() =>
-            dispatch({ type: "setPage", payload: currentPage + 1 })
-          }
-        >
+        <span>{page.current}</span>
+        <button disabled={!nextPage} onClick={() => handleNext()}>
           Next
         </button>
       </div>
