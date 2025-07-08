@@ -216,7 +216,15 @@ form input[type="submit"]:active {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.fav-button {
+.fav-button-not-added {
+  border-radius: 100%;
+  border: none;
+  background-color: transparent;
+  align-self: flex-end;
+  filter: grayscale(1);
+}
+
+.fav-button-added {
   border-radius: 100%;
   border: none;
   background-color: transparent;
@@ -241,7 +249,7 @@ form input[type="submit"]:active {
   filter: brightness(1.8);
 }
 
-.fav-link {
+.nav-link {
   text-decoration: none;
   color: #fff;
   background-color: #4a90e2;
@@ -250,7 +258,7 @@ form input[type="submit"]:active {
   border-radius: 25px;
 }
 
-.fav-link:hover {
+.nav-link:hover {
   background-color: #357abd;
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);

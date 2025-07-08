@@ -34,7 +34,7 @@ function App() {
       <h1>Rick and Morty explorer</h1>
 
       <nav>
-        <Link to="/favorites" className="fav-link">
+        <Link to="/favorites" className="nav-link">
           Favorites
         </Link>
       </nav>
