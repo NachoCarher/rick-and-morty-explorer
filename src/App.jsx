@@ -7,8 +7,19 @@ import { Link } from "react-router";
 import { useCharacter } from "./contexts/CharacterContext";
 
 function App() {
-  const { dispatch, favCharacters, error, characters, status } = useCharacter();
+  const { error, characters, status, dispatch } = useCharacter();
   const page = useRef(1);
+
+  function handleSelect(event) {
+    page.current = 1;
+
+    fetch(
+      `https://rickandmortyapi.com/api/character/?status=${event.target.value}`
+    )
+      .then((response) => response.json())
+      .then((data) => dispatch({ type: "dataReceived", payload: data }))
+      .catch((err) => dispatch({ type: "dataFailed", payload: err }));
+  }
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -24,13 +35,6 @@ function App() {
 
   return (
     <main>
-      <ul>
-        {favCharacters
-          ? favCharacters.map((favCharacter) => (
-              <li key={favCharacter.id}>{favCharacter.name}</li>
-            ))
-          : "There are no favs"}{" "}
-      </ul>
       <h1>Rick and Morty explorer</h1>
 
       <nav>
@@ -39,7 +43,7 @@ function App() {
         </Link>
       </nav>
 
-      <Search onSubmit={handleSubmit} />
+      <Search onSubmit={handleSubmit} onSelect={handleSelect} />
 
       {status === "loading" && <p>Loading...</p>}
       {status === "error" && (

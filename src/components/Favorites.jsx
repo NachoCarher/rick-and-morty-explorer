@@ -13,7 +13,7 @@ function Favorites() {
           Home
         </Link>
       </nav>
-      <h2>Favorites page</h2>
+      <h2 className="fav-title">Favorites page</h2>
       <CharactersList characters={favCharacters} />
     </main>
   );
