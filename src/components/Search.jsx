@@ -11,7 +11,8 @@ function Search({ onSubmit, onSelect }) {
         />
       </form>
 
-      <select name="select" onChange={onSelect}>
+      <select name="select" onChange={onSelect} className="select-status">
+        <option value="">Choose status</option>
         <option value="Dead">Dead</option>
         <option value="Alive">Alive</option>
         <option value="Unknown">Unknown</option>

@@ -13,6 +13,8 @@ function App() {
   function handleSelect(event) {
     page.current = 1;
 
+    if (!event.target.value) return;
+
     fetch(
       `https://rickandmortyapi.com/api/character/?status=${event.target.value}`
     )
