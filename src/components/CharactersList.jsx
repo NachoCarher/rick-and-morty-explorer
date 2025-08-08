@@ -36,7 +36,11 @@ function CharactersList({ characters }) {
           >
             <img src={icon} alt="favorite-icon" />
           </button>
-          <Character name={character.name} image={character.image} />
+          <Character
+            name={character.name}
+            image={character.image}
+            id={character.id}
+          />
         </li>
       ))}
     </ul>

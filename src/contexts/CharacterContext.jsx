@@ -11,6 +11,7 @@ const initialState = {
   nextPage: "",
   prevPage: "",
   favCharacters: [],
+  currentCharacter: null,
 };
 
 const CharacterContext = createContext();
@@ -44,6 +45,9 @@ function reducer(state, action) {
         ),
       };
 
+    case "showCharacter":
+      return { ...state, currentCharacter: action.payload, status: "success" };
+
     default:
       throw new Error("Unknown action type");
   }
@@ -52,7 +56,15 @@ function reducer(state, action) {
 // eslint-disable-next-line react/prop-types
 function CharacterProvider({ children }) {
   const [
-    { status, characters, error, nextPage, prevPage, favCharacters },
+    {
+      status,
+      characters,
+      error,
+      nextPage,
+      prevPage,
+      favCharacters,
+      currentCharacter,
+    },
     dispatch,
   ] = useReducer(reducer, initialState);
 
@@ -63,6 +75,18 @@ function CharacterProvider({ children }) {
       .catch((err) => dispatch({ type: "dataFailed", payload: err }));
   }, [dispatch]);
 
+  async function getCharacter(id) {
+    if (!id) return;
+
+    try {
+      fetch(`https://rickandmortyapi.com/api/character/${id}`)
+        .then((res) => res.json())
+        .then((data) => dispatch({ type: "showCharacter", payload: data }));
+    } catch (error) {
+      dispatch({ type: "dataFailed", payload: error });
+    }
+  }
+
   return (
     <CharacterContext.Provider
       value={{
@@ -72,6 +96,8 @@ function CharacterProvider({ children }) {
         nextPage,
         prevPage,
         favCharacters,
+        currentCharacter,
+        getCharacter,
         dispatch,
       }}
     >
