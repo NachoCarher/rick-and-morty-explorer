@@ -4,10 +4,6 @@ const initialState = {
   status: "loading", // loading, success, error
   error: "",
   characters: [],
-  filters: {
-    name: "",
-    condition: "", // dead, alive, unknown
-  },
   nextPage: "",
   prevPage: "",
   favCharacters: [],

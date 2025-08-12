@@ -16,7 +16,7 @@ function Favorites() {
       <h2 className="fav-title">Favorites page</h2>
 
       {favCharacters.length === 0 ? (
-        <p className="empty-fav-list">Empty list 🤷🏻‍♂️</p>
+        <p className="error">🤷🏻‍♂️ Empty list</p>
       ) : (
         <CharactersList characters={favCharacters} />
       )}

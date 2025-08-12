@@ -10,28 +10,21 @@ function App() {
   const { error, characters, status, dispatch } = useCharacter();
   const page = useRef(1);
 
-  function handleSelect(event) {
-    page.current = 1;
-
-    if (!event.target.value) return;
-
-    fetch(
-      `https://rickandmortyapi.com/api/character/?status=${event.target.value}`
-    )
-      .then((response) => response.json())
-      .then((data) => dispatch({ type: "dataReceived", payload: data }))
-      .catch((err) => dispatch({ type: "dataFailed", payload: err }));
-  }
-
   function handleSubmit(event) {
     event.preventDefault();
     page.current = 1;
 
+    const searchName = event.target[0].value;
+    const searchStatus = event.target[1].value;
+
     fetch(
-      `https://rickandmortyapi.com/api/character/?name=${event.target[0].value}`
+      `https://rickandmortyapi.com/api/character/?name=${searchName}&status=${searchStatus}`
     )
       .then((response) => response.json())
-      .then((data) => dispatch({ type: "dataReceived", payload: data }))
+      .then((data) => {
+        if (data.error) throw data.error;
+        dispatch({ type: "dataReceived", payload: data });
+      })
       .catch((err) => dispatch({ type: "dataFailed", payload: err }));
   }
 
@@ -45,17 +38,16 @@ function App() {
         </Link>
       </nav>
 
-      <Search onSubmit={handleSubmit} onSelect={handleSelect} />
+      <Search onSubmit={handleSubmit} />
 
       {status === "loading" && <p>Loading...</p>}
-      {status === "error" && (
-        <p>
-          <span>💥</span> {error}
-        </p>
+      {status === "error" && <p className="error">💥 {error}</p>}
+      {status === "success" && (
+        <>
+          <CharactersList characters={characters} />
+          <PageNavigation page={page} />
+        </>
       )}
-      {status === "success" && <CharactersList characters={characters} />}
-
-      <PageNavigation page={page} />
     </main>
   );
 }
