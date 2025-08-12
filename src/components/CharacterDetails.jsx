@@ -17,13 +17,15 @@ function CharacterDetails() {
   console.log(currentCharacter);
 
   return (
-    <>
+    <main>
       <h1>Rick and Morty explorer</h1>
+
       <nav>
         <Link to="/" className="nav-link">
           Home
         </Link>
       </nav>
+
       <section className="character-section">
         {!currentCharacter ? (
           <p>Loading character...</p>
@@ -66,7 +68,7 @@ function CharacterDetails() {
           </>
         )}
       </section>
-    </>
+    </main>
   );
 }
 

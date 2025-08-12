@@ -1,4 +1,6 @@
 .character-section {
+  margin: 2em 0;
+  padding: 0 1em;
   display: flex;
   background: white;
   justify-content: space-evenly;
