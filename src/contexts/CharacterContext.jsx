@@ -1,4 +1,10 @@
-import { createContext, useContext, useEffect, useReducer } from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useReducer,
+} from "react";
 
 const initialState = {
   status: "loading", // loading, success, error
@@ -71,17 +77,23 @@ function CharacterProvider({ children }) {
       .catch((err) => dispatch({ type: "dataFailed", payload: err }));
   }, [dispatch]);
 
-  async function getCharacter(id) {
-    if (!id) return;
+  const getCharacter = useCallback(
+    async function (id) {
+      if (!id) return;
 
-    try {
-      fetch(`https://rickandmortyapi.com/api/character/${id}`)
-        .then((res) => res.json())
-        .then((data) => dispatch({ type: "showCharacter", payload: data }));
-    } catch (error) {
-      dispatch({ type: "dataFailed", payload: error });
-    }
-  }
+      try {
+        fetch(`https://rickandmortyapi.com/api/character/${id}`)
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.error) throw data.error;
+            dispatch({ type: "showCharacter", payload: data });
+          });
+      } catch (error) {
+        dispatch({ type: "dataFailed", payload: error });
+      }
+    },
+    [dispatch]
+  );
 
   return (
     <CharacterContext.Provider
