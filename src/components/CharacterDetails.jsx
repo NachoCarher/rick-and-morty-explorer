@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from "react-router";
+import { useParams, Link } from "react-router";
 import { useCharacter } from "../contexts/CharacterContext";
 import { useEffect } from "react";
 import "./CharacterDetails.css";
@@ -6,7 +6,6 @@ import "./CharacterDetails.css";
 function CharacterDetails() {
   const { id } = useParams();
   const { getCharacter, currentCharacter } = useCharacter();
-  const navigate = useNavigate();
 
   useEffect(
     function () {
@@ -15,18 +14,14 @@ function CharacterDetails() {
     [getCharacter, id]
   );
 
-  console.log(currentCharacter);
-
-  // solo se muestran detalles del mismo personaje, da igual el que pulses
-  // los detalles están hardcodeados, hay que sacarlos del currentcharacter
-
-  // intentar hacer el diseño basandose en este bentogrid
-  // https://bentogrids.com/shots/cltigec6a0007tmjhbowur3gu
-  // donde en el centro va la imagen y en el resto de filas o columnas los textitos
-
   return (
     <>
-      <h1 onClick={() => navigate("/")}>Rick and Morty explorer</h1>
+      <h1>Rick and Morty explorer</h1>
+      <nav>
+        <Link to="/" className="nav-link">
+          Home
+        </Link>
+      </nav>
       <section className="character-section">
         {!currentCharacter ? (
           <p>Loading character...</p>

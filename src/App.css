@@ -45,10 +45,6 @@ h1::after {
   border-radius: 2px;
 }
 
-h1:hover {
-  cursor: pointer;
-}
-
 .search-form {
   width: 50rem;
 }

@@ -14,7 +14,12 @@ function Favorites() {
         </Link>
       </nav>
       <h2 className="fav-title">Favorites page</h2>
-      <CharactersList characters={favCharacters} />
+
+      {favCharacters.length === 0 ? (
+        <p className="empty-fav-list">Empty list 🤷🏻‍♂️</p>
+      ) : (
+        <CharactersList characters={favCharacters} />
+      )}
     </main>
   );
 }
