@@ -14,6 +14,8 @@ function CharacterDetails() {
     [getCharacter, id]
   );
 
+  console.log(currentCharacter);
+
   return (
     <>
       <h1>Rick and Morty explorer</h1>
@@ -42,27 +44,22 @@ function CharacterDetails() {
 
                 <div className="location">
                   <p>Location</p>
-                  <p>Planet Earth</p>
+                  <p>{currentCharacter.location?.name}</p>
                 </div>
 
                 <div className="species">
                   <p>Species</p>
-                  <p>Humano</p>
+                  <p>{currentCharacter.species}</p>
                 </div>
 
                 <div className="gender">
                   <p>Gender</p>
-                  <p>Masculino</p>
+                  <p>{currentCharacter.gender}</p>
                 </div>
 
                 <div className="origin">
                   <p>Origin</p>
-                  <p>Tierra (C-137)</p>
-                </div>
-
-                <div className="current-location">
-                  <p>Current location</p>
-                  <p>Ciudadela de los Ricks</p>
+                  <p>{currentCharacter.origin?.name}</p>
                 </div>
               </div>
             </div>
